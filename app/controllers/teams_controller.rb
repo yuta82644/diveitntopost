@@ -16,7 +16,7 @@ class TeamsController < ApplicationController
   end
 
   def edit
-    #TeamのeditはTeamのリーダー（オーナー）のみができるようにすること
+    #TeamのeditはTeamのリーダー（オーナー）のみができるようにするこ
     if @team.owner_id != current_user.id
       redirect_to @team, notice: '編集できません'
     end
