@@ -13,12 +13,22 @@ class AssignsController < ApplicationController
       redirect_to team_url(team), notice: I18n.t('views.messages.failed_to_assign')
     end
   end
+#Teamに所属しているUserの削除（離脱）は、そのTeamのオーナーか、そのUser自身しかできないようにすること
 
   def destroy
     assign = Assign.find(params[:id])
-    destroy_message = assign_destroy(assign, assign.user)
+    if assign.user == assign.team.owner
+      destroy_message = assign_destroy(assign, assign.user)
+      redirect_to team_url(params[:team_id]), notice: destroy_message
+    elsif assign.user == current_user
+      destroy_message = assign_destroy(assign, assign.user)
+      redirect_to team_url(params[:team_id]), notice: destroy_message
+    else
+      redirect_to team_url(params[:team_id]), notice: "削除できません"
+    end
+    # destroy_message = assign_destroy(assign, assign.user)
 
-    redirect_to team_url(params[:team_id]), notice: destroy_message
+    # redirect_to team_url(params[:team_id]), notice: destroy_message
   end
 
   private
