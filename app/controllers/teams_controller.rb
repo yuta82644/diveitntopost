@@ -16,10 +16,11 @@ class TeamsController < ApplicationController
   end
 
   def edit
-    #TeamのeditはTeamのリーダー（オーナー）のみができるようにするq
+    # TeamのeditはTeamのリーダー（オーナー）のみができるようにするq
 
     redirect_to @team, notice: "編集できません" if @team.owner_id != current_user.id
   end
+
   def create
     @team = Team.new(team_params)
     @team.owner = current_user
@@ -72,11 +73,11 @@ class TeamsController < ApplicationController
 
   def team_params
     params.fetch(:team, {}).permit %i[
-             name
-               icon
-               icon_cache
-               owner_id
-               keep_team_id
-             ]
+      name
+      icon
+      icon_cache
+      owner_id
+      keep_team_id
+    ]
   end
 end
